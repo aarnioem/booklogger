@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Booklogger</title>
+</head>
+
+<body>
+    <h1>New log</h1>
+    {% if session.username %}
+    <p>
+        Logged in as {{ session.username }}
+    </p>
+
+    <form action="/new_log" method="post">
+        <p>
+        Book title: <br />
+        <input type="text" name="title" />
+        </p>
+        <p>
+        Author: <br />
+        <input type="text" name="author" />
+        </p>
+        <p>
+            Status:
+            <select name="status">
+                <option value="want-to-read">Want to read</option>
+                <option value="reading">Reading</option>
+                <option value="read">Read</option>
+            </select>
+        </p>
+        <p>
+            Rating: <input type="number" name="rating" min="1" max="10" />
+        </p>
+        <p>
+        Review: <br />
+        <textarea name="review" rows="10" cols="80"></textarea>
+        </p>
+
+
+        <input type="submit" value="Submit log entry" />
+    </form>
+    {% else %}
+    <p>You are not logged in.</p>
+    {% endif %}
+    <br />
+    <a href="/">Back</a>
+</body>
+
+</html>

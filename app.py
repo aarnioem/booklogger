@@ -12,6 +12,23 @@ app.secret_key = config.secret_key
 def index():
     return render_template("index.html")
 
+@app.route("/new_log", methods=["GET", "POST"])
+def new_log():
+    if request.method == "GET":
+        return render_template("new_log.html")
+    
+    if request.method == "POST":
+        title = request.form["title"]
+        author = request.form["author"]
+        status = request.form["status"]
+        rating = request.form["rating"]
+        review = request.form["review"]
+
+        sql = "INSERT INTO books (user_id, title, author, status, rating, review) VALUES (?, ?, ?, ?, ?, ?)"
+        db.execute(sql, [session['user_id'], title, author, status, rating, review])
+
+        return "Book logged"
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -43,11 +60,17 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        sql = "SELECT password_hash FROM users WHERE username = ?"
+        sql = "SELECT password_hash, id FROM users WHERE username = ?"
         password_hash = db.query(sql, [username])[0][0]
+        
+        sql = "SELECT password_hash, id FROM users WHERE username = ?"
+        query = db.query(sql, [username])[0]
+        password_hash = query[0]
+        user_id = query[1]
 
         if check_password_hash(password_hash, password):
             session["username"] = username
+            session["user_id"] = user_id
             return redirect("/")
         else:
             return "Error: Wrong username or password"
