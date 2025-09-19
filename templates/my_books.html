@@ -2,18 +2,24 @@
 <html>
 
 <head>
-    <title>Booklogger</title>
+    <title>My Books</title>
 </head>
 
 <body>
-    <h1>Booklogger</h1>
+    <h1>My Books</h1>
     {% if session.username %}
     <p>
         Logged in as {{ session.username }}
     </p>
+
+    {% for book in books %}
     <p>
-        <a href="/my_books">My books</a>
-        <a href="/new_log">Log a book</a>
+        <b>{{ book.title }}</b> by {{ book.author }} <a href="/log/{{ book.id }}">view</a> <a href="/edit/{{ book.id }}">edit</a>
+    </p>
+    {% endfor %}
+
+    <p>
+        <a href="/">Back</a>
     </p>
     <p>
         <a href="/logout">Log out</a>

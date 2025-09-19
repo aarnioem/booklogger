@@ -29,6 +29,31 @@ def new_log():
         logs.add_log(title, author, status, rating, review, user_id)
 
         return redirect("/")
+    
+@app.route("/log/<int:log_id>")
+def view_log(log_id):
+    log = logs.get_log_by_id(log_id)
+    return render_template("view_log.html", book=log)
+
+@app.route("/edit/<int:log_id>")
+def edit_log(log_id):
+    log = logs.get_log_by_id(log_id)
+    return render_template("edit_log.html", book=log)
+
+@app.route("/update_log", methods=["POST"])
+def update_log():
+    status = request.form["status"]
+    rating = request.form["rating"]
+    review = request.form["review"]
+    log_id = request.form["log_id"]
+
+    logs.update_log(status, rating, review, log_id)
+    return redirect("/my_books")
+
+@app.route("/my_books")
+def my_books():
+    books = logs.get_logs_by_user_id(session["user_id"])
+    return render_template("my_books.html", books=books)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

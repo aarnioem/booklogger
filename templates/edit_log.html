@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit log</title>
+</head>
+
+<body>
+    <h1>Edit log</h1>
+
+    <form action="/update_log" method="post">
+        <p>
+        <b>{{ book.title }}</b> by {{ book.author }}
+        </p>
+        <p>
+            Status:
+        <select name="status">
+            <option value="want-to-read" {% if book.status == "want-to-read" %}selected{% endif %}>Want to read</option>
+            <option value="reading" {% if book.status == "reading" %}selected{% endif %}>Reading</option>
+            <option value="read" {% if book.status == "read" %}selected{% endif %}>Read</option>
+        </select>
+        </p>
+        <p>
+            Rating: <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/>
+        </p>
+        <p>
+        Review: <br />
+        <textarea name="review" rows="10" cols="80">{{ book.review }}</textarea>
+        </p>
+        <input type="hidden" name="log_id" value="{{ book.id }}">
+        <input type="submit" value="Submit log entry" />
+    </form>
+    <br />
+    <a href="/my_books">Back</a>
+</body>
+
+</html>
