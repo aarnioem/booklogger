@@ -1,9 +1,10 @@
 from flask import Flask
-from flask import render_template, request, session, redirect
+from flask import render_template, request, session, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import db
 import config
+import logs
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -16,24 +17,24 @@ def index():
 def new_log():
     if request.method == "GET":
         return render_template("new_log.html")
-    
+
     if request.method == "POST":
         title = request.form["title"]
         author = request.form["author"]
         status = request.form["status"]
         rating = request.form["rating"]
         review = request.form["review"]
+        user_id = session["user_id"]
 
-        sql = "INSERT INTO books (user_id, title, author, status, rating, review) VALUES (?, ?, ?, ?, ?, ?)"
-        db.execute(sql, [session['user_id'], title, author, status, rating, review])
+        logs.add_log(title, author, status, rating, review, user_id)
 
-        return "Book logged"
+        return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
-    
+
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
@@ -61,9 +62,6 @@ def login():
         password = request.form["password"]
 
         sql = "SELECT password_hash, id FROM users WHERE username = ?"
-        password_hash = db.query(sql, [username])[0][0]
-        
-        sql = "SELECT password_hash, id FROM users WHERE username = ?"
         query = db.query(sql, [username])[0]
         password_hash = query[0]
         user_id = query[1]
@@ -78,4 +76,5 @@ def login():
 @app.route("/logout")
 def logout():
     del session["username"]
+    del session["user_id"]
     return redirect("/")
