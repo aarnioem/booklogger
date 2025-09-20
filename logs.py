@@ -17,3 +17,7 @@ def get_log_by_id(log_id):
 def update_log(status, rating, review, log_id):
     sql = "UPDATE books SET status = ?, rating = ?, review = ? WHERE id = ?"
     db.execute(sql, [status, rating, review, log_id])
+
+def delete_log(log_id):
+    sql = "DELETE FROM books WHERE id = ?"
+    db.execute(sql, [log_id])

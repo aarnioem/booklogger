@@ -5,6 +5,7 @@ import sqlite3
 import db
 import config
 import logs
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -40,6 +41,17 @@ def edit_log(log_id):
     log = logs.get_log_by_id(log_id)
     return render_template("edit_log.html", book=log)
 
+@app.route("/delete/<int:log_id>")
+def delete(log_id):
+    log = logs.get_log_by_id(log_id)
+    return render_template("delete.html", book=log)
+
+@app.route("/delete_log", methods=["POST"])
+def delete_log():
+    log_id = request.form["log_id"]
+    logs.delete_log(log_id)
+    return redirect("/my_books")
+
 @app.route("/update_log", methods=["POST"])
 def update_log():
     status = request.form["status"]
@@ -70,8 +82,7 @@ def register():
         password_hash = generate_password_hash(password1)
 
         try:
-            sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-            db.execute(sql, [username, password_hash])
+            users.create_account(username, password_hash)
         except sqlite3.IntegrityError:
             return "Error: Username taken"
 

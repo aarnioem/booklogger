@@ -14,7 +14,10 @@
 
     {% for book in books %}
     <p>
-        <b>{{ book.title }}</b> by {{ book.author }} <a href="/log/{{ book.id }}">view</a> <a href="/edit/{{ book.id }}">edit</a>
+        <b>{{ book.title }}</b> by {{ book.author }}
+        <a href="/log/{{ book.id }}">view</a>
+        <a href="/edit/{{ book.id }}">edit</a>
+        <a href="/delete/{{ book.id }}">delete</a>
     </p>
     {% endfor %}
 
