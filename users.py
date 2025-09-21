@@ -13,7 +13,7 @@ def login(username, password):
              return None
         
         password_hash = query[0]["password_hash"]
-        user_id = query[1]["id"]
+        user_id = query[0]["id"]
 
         if check_password_hash(password_hash, password):
             return user_id
