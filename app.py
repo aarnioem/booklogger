@@ -62,11 +62,21 @@ def delete_log():
     logs.delete_log(log_id)
     return redirect("/my_books")
 
-
 @app.route("/my_books")
 def my_books():
     books = logs.get_logs_by_user_id(session["user_id"])
     return render_template("my_books.html", books=books)
+
+@app.route("/members")
+def members():
+    members = users.get_users()
+    return render_template("members.html", members=members)
+
+@app.route("/profile/<int:user_id>")
+def profile(user_id):
+    member = users.get_user(user_id)
+    books = logs.get_logs_by_user_id(user_id)
+    return render_template("profile.html", member=member, books=books)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

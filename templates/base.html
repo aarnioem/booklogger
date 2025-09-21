@@ -15,9 +15,10 @@
       <ul>
         <li><a href="/">Front page</a></li>
         {% if session.user_id %}
-        <li><a href="/logout">Log out</a></li>
+        <li><a href="/members">Members</a></li>
         <li><a href="/my_books">My Books</a></li>
         <li><a href="/new_log">New Log</a></li>
+        <li><a href="/logout">Log out</a></li>
         {% else %}
         <li><a href="/register">Sign up</a></li>
         <li><a href="/login">Log in</a></li>

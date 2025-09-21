@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ member.username }} - Booklogger
+{% endblock %}
+
+{% block content %}
+<h2>{{ member.username }}'s Page</h2>
+
+{% if books %}
+<h3>{{ member.username }}'s Books:</h3>
+<ul>
+  {% for book in books %}
+  <li>
+    <strong>{{ book.title }}</strong> by {{ book.author }}
+    <a href="/log/{{ book.id }}">view</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>{{ member.username }} has not logged books yet.
+{% endif %}
+
+{% endblock %}
