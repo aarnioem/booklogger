@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Booklogger</title>
-</head>
+{% block title %}
+Front Page - Booklogger
+{% endblock %}
 
-<body>
-    <h1>Booklogger</h1>
-    {% if session.username %}
-    <p>
-        Logged in as {{ session.username }}
-    </p>
-    <p>
-        <a href="/my_books">My books</a>
-        <a href="/new_log">Log a book</a>
-    </p>
-    <p>
-        <a href="/logout">Log out</a>
-    </p>
-    {% else %}
-    <a href="/register">Sign up</a>
-    <a href="/login">Log in</a>
-    {% endif %}
-</body>
+{% block content %}
+<h2>Welcome to Booklogger</h2>
 
-</html>
+{% if session.username %}
+<p>Logged in as {{ session.username }}</p>
+{% else %}
+<p>Log in or sign up to start logging books.</p>
+{% endif %}
+{% endblock %}

@@ -1,32 +1,25 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Booklogger</title>
-</head>
+{% block title %}
+Log in - Booklogger
+{% endblock %}
 
-<body>
-    <h1>Booklogger</h1>
-    {% if session.username %}
-    <p>
-        Logged in as {{ session.username }}
-    </p>
-    <p>
-        <a href="/logout">Log out</a>
-    </p>
-    {% else %}
-    <form action="/login" method="post">
-        <p>
-        Username: <br />
-        <input type="text" name="username" />
-        </p>
-        <p>
-        Password: <br />
-        <input type="password" name="password" />
-        </p>
-        <input type="submit" value="Log in" />
-    </form>
-    {% endif %}
-</body>
+{% block content %}
+<h2>Log In</h2>
 
-</html>
+{% if session.username %}
+<p>Already logged in as {{ session.username }}</p>
+{% else %}
+<form action="/login" method="post">
+  <p>
+    Username: <br/>
+    <input type="text" name="username" />
+  </p>
+  <p>
+    Password: <br/>
+    <input type="password" name="password" />
+  </p>
+  <input type="submit" value="Log in" />
+</form>
+{% endif %}
+{% endblock %}

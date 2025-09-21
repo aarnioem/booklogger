@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Booklogger</h1>
+  </div>
+
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a href="/">Front page</a></li>
+        {% if session.user_id %}
+        <li><a href="/logout">Log out</a></li>
+        <li><a href="/my_books">My Books</a></li>
+        <li><a href="/new_log">New Log</a></li>
+        {% else %}
+        <li><a href="/register">Sign up</a></li>
+        <li><a href="/login">Log in</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

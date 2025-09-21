@@ -1,36 +1,31 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Booklogger</title>
-</head>
+{% block title %}
+Register - Booklogger
+{% endblock %}
 
-<body>
-    <h1>Booklogger</h1>
-    {% if session.username %}
-    <p>
-        Logged in as {{ session.username }}
-    </p>
-    <p>
-        <a href="/logout">Log out</a>
-    </p>
-    {% else %}
-    <form action="/register" method="post">
-        <p>
-            Username: <br />
-            <input type="text" name="username" />
-        </p>
-        <p>
-            Password: <br />
-            <input type="password" name="password1" />
-        </p>
-        <p>
-            Re-enter password: <br />
-            <input type="password" name="password2" />
-        </p>
-        <input type="submit" value="Create account" />
-    </form>
-    {% endif %}
-</body>
-
-</html>
+{% block content %}
+<h2>Registration</h2>
+{% if session.username %}
+<p>Logged in as {{ session.username }}</p>
+{% else %}
+{% for message in get_flashed_messages() %}
+<p>{{ message }}</p>
+{% endfor %}
+<form action="/register" method="post">
+  <p>
+    Username: <br/>
+    <input type="text" name="username" />
+  </p>
+  <p>
+    Password: <br/>
+    <input type="password" name="password1" />
+  </p>
+  <p>
+    Re-enter password: <br/>
+    <input type="password" name="password2" />
+  </p>
+  <input type="submit" value="Create account" />
+</form>
+{% endif %}
+{% endblock %}

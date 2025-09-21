@@ -1,25 +1,32 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>{{ book.title }}</title>
-</head>
+{% block title %}
+{{ book.title }} - Booklogger
+{% endblock %}
 
-<body>
-    <h1>{{ book.title }}</h1>
+{% block content %}
+<h2>{{ book.title }}</h2>
 
-    <p>
-        <b>{{ book.title }}</b> by {{ book.author }}
-    </p>
-    <p>
-        {{ book.review }}
-    </p>
-    <p>
-        <a href="/my_books">Back</a>
-    </p>
-    <p>
-        <a href="/logout">Log out</a>
-    </p>
-</body>
+{% if session.username %}
+  <p>Logged in as {{ session.username }}</p>
+  <p><b>{{ book.title }}</b> by {{ book.author }}</p>
+  <p>Status: {{ book.status }}</p>
 
-</html>
+  {% if book.rating %}
+    <p>Rating: {{ book.rating }}/10</p>
+  {% else %}
+    <p>Rating: -/10</p>
+  {% endif %}
+
+  {% if book.review %}
+    <p>
+      <b>Review:</b><br/>
+      {{ book.review }}
+    </p>
+  {% endif %}
+  <a href="/delete/{{ book.id }}">Delete</a>
+  <a href="/my_books">Back</a>
+{% else %}
+  <p>Log in or sign up to start logging books.</p>
+{% endif %}
+{% endblock %}
