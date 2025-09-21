@@ -1,7 +1,9 @@
-from flask import Flask
-from flask import render_template, request, session, redirect, flash, abort
-from werkzeug.security import generate_password_hash
 import sqlite3
+
+from flask import Flask
+from flask import render_template, request, session, redirect, flash
+from werkzeug.security import generate_password_hash
+
 import config
 import logs
 import users
@@ -29,7 +31,7 @@ def new_log():
         logs.add_log(title, author, status, rating, review, user_id)
 
         return redirect("/")
-    
+
 @app.route("/log/<int:log_id>")
 def view_log(log_id):
     log = logs.get_log_by_id(log_id)
@@ -72,8 +74,8 @@ def my_books():
 
 @app.route("/members")
 def members():
-    members = users.get_users()
-    return render_template("members.html", members=members)
+    user_list = users.get_users()
+    return render_template("members.html", user_list=user_list)
 
 @app.route("/profile/<int:user_id>")
 def profile(user_id):

@@ -1,7 +1,9 @@
 import db
 
 def add_log(title, author, status, rating, review, user_id):
-    sql = "INSERT INTO books (user_id, title, author, status, rating, review) VALUES (?, ?, ?, ?, ?, ?)"
+    sql = """ INSERT INTO books
+              (user_id, title, author, status, rating, review)
+              VALUES (?, ?, ?, ?, ?, ?)"""
     db.execute(sql, [user_id, title, author, status, rating, review])
 
 def get_logs_by_user_id(user_id):

@@ -1,6 +1,7 @@
-import db
-from werkzeug.security import check_password_hash
 from flask import abort
+from werkzeug.security import check_password_hash
+
+import db
 from logs import get_log_by_id
 
 def create_account(username, password_hash):
@@ -10,10 +11,10 @@ def create_account(username, password_hash):
 def login(username, password):
     sql = "SELECT password_hash, id FROM users WHERE username = ?"
     query = db.query(sql, [username])
-    
+
     if not query:
-         return None
-    
+        return None
+
     password_hash = query[0]["password_hash"]
     user_id = query[0]["id"]
 
@@ -21,7 +22,7 @@ def login(username, password):
         return user_id
     else:
         return None
-        
+
 def get_users():
     sql = "SELECT username, id FROM users"
     result = db.query(sql, [])
