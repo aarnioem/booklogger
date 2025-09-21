@@ -41,6 +41,16 @@ def edit_log(log_id):
     log = logs.get_log_by_id(log_id)
     return render_template("edit_log.html", book=log)
 
+@app.route("/update_log", methods=["POST"])
+def update_log():
+    status = request.form["status"]
+    rating = request.form["rating"]
+    review = request.form["review"]
+    log_id = request.form["log_id"]
+
+    logs.update_log(status, rating, review, log_id)
+    return redirect("/my_books")
+
 @app.route("/delete/<int:log_id>")
 def delete(log_id):
     log = logs.get_log_by_id(log_id)
@@ -52,15 +62,6 @@ def delete_log():
     logs.delete_log(log_id)
     return redirect("/my_books")
 
-@app.route("/update_log", methods=["POST"])
-def update_log():
-    status = request.form["status"]
-    rating = request.form["rating"]
-    review = request.form["review"]
-    log_id = request.form["log_id"]
-
-    logs.update_log(status, rating, review, log_id)
-    return redirect("/my_books")
 
 @app.route("/my_books")
 def my_books():
@@ -96,18 +97,14 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        user_id = users.login(username, password)
 
-        sql = "SELECT password_hash, id FROM users WHERE username = ?"
-        query = db.query(sql, [username])[0]
-        password_hash = query[0]
-        user_id = query[1]
-
-        if check_password_hash(password_hash, password):
+        if user_id:
             session["username"] = username
             session["user_id"] = user_id
             return redirect("/")
         else:
-            return "Error: Wrong username or password"
+            return "Wrong username or password."
 
 @app.route("/logout")
 def logout():
