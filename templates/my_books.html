@@ -16,7 +16,7 @@ My Books - Booklogger
   {% for book in books %}
   <li>
     <strong>{{ book.title }}</strong> by {{ book.author }}
-    <a href="/log/{{ book.id }}">view</a>
+    <a href="/log/{{ book.id }}">View</a>
     <a href="/edit/{{ book.id }}">Edit</a>
     <a href="/delete/{{ book.id }}">Delete</a>
   </li>

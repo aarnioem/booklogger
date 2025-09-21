@@ -1,8 +1,7 @@
 from flask import Flask
-from flask import render_template, request, session, redirect, flash
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import render_template, request, session, redirect, flash, abort
+from werkzeug.security import generate_password_hash
 import sqlite3
-import db
 import config
 import logs
 import users
@@ -39,6 +38,7 @@ def view_log(log_id):
 @app.route("/edit/<int:log_id>")
 def edit_log(log_id):
     log = logs.get_log_by_id(log_id)
+    users.check_permission(session["user_id"], log_id)
     return render_template("edit_log.html", book=log)
 
 @app.route("/update_log", methods=["POST"])
@@ -48,17 +48,20 @@ def update_log():
     review = request.form["review"]
     log_id = request.form["log_id"]
 
+    users.check_permission(session["user_id"], log_id)
     logs.update_log(status, rating, review, log_id)
     return redirect("/my_books")
 
 @app.route("/delete/<int:log_id>")
 def delete(log_id):
     log = logs.get_log_by_id(log_id)
+    users.check_permission(session["user_id"], log_id)
     return render_template("delete.html", book=log)
 
 @app.route("/delete_log", methods=["POST"])
 def delete_log():
     log_id = request.form["log_id"]
+    users.check_permission(session["user_id"], log_id)
     logs.delete_log(log_id)
     return redirect("/my_books")
 

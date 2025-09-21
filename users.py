@@ -1,5 +1,7 @@
 import db
 from werkzeug.security import check_password_hash
+from flask import abort
+from logs import get_log_by_id
 
 def create_account(username, password_hash):
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
@@ -29,3 +31,8 @@ def get_user(user_id):
     sql = "SELECT username, id FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
     return result[0]
+
+def check_permission(user_id, log_id):
+    log = get_log_by_id(log_id)
+    if log["user_id"] != user_id:
+        abort(403)
