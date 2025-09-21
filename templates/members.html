@@ -13,7 +13,7 @@ Members - Booklogger
 
 {% endif %}
 
-{% for member in members %}
+{% for member in user_list %}
 <a href="/profile/{{ member.id }}">{{ member.username }} <br/></a>
 
 {% endfor %}

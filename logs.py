@@ -23,3 +23,16 @@ def update_log(status, rating, review, log_id):
 def delete_log(log_id):
     sql = "DELETE FROM books WHERE id = ?"
     db.execute(sql, [log_id])
+
+def search_by_title(query):
+    sql = """SELECT books.id,
+                    books.user_id,
+                    books.title,
+                    books.author,
+                    books.status,
+                    books.rating,
+                    books.review,
+                    users.username
+            FROM books JOIN users ON books.user_id = users.id
+            WHERE title LIKE ?"""
+    return db.query(sql, ["%" + query + "%"])

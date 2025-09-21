@@ -15,6 +15,12 @@ app.secret_key = config.secret_key
 def index():
     return render_template("index.html")
 
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    results = logs.search_by_title(query) if query else []
+    return render_template("search.html", query=query, results=results)
+
 @app.route("/new_log", methods=["GET", "POST"])
 def new_log():
     if request.method == "GET":

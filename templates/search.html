@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search - Booklogger
+{% endblock %}
+
+{% block content %}
+<h2>Search</h2>
+
+{% if session.username %}
+<p>Logged in as {{ session.username }}</p>
+{% endif %}
+<form action="/search" method="get">
+  <p>
+    Search for:
+    {% if query %}
+    <input type="text" name="query" value="{{ query }}" />
+    <input type="submit" value="Search" />
+    <hr />
+    <h2>Results:</h2>
+  
+    <ul>
+    {% for result in results %}
+      <li>
+        <strong>{{ result.title }}</strong> by {{ result.author }} logged by <b>{{ result.username }}</b>
+        <a href="/log/{{ result.id }}">View</a>
+      </li>  
+    {% endfor %}
+    </ul>
+    {% else %}
+    <input type="text" name="query" />
+    <input type="submit" value="Search" />
+    {% endif %}
+  </p>
+
+{% endblock %}
