@@ -7,3 +7,20 @@ A web app for tracking your reading.
 - Users can search for reviews by book titles or author names.
 - User pages show how many books the user has read, average review score, and a list of their book reviews.
 - Users have statistics pages that show how many books they've read each year, average book page count for each year etc.
+
+## Testing
+
+Make sure that flask is installed.
+```
+pip install flask
+```
+
+create the database with
+```
+sqlite3 database.db < schema.sql
+```
+
+run the app with
+```
+flask run
+```
