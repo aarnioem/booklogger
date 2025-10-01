@@ -9,9 +9,6 @@ Register - Booklogger
 {% if session.username %}
 <p>Logged in as {{ session.username }}</p>
 {% else %}
-{% for message in get_flashed_messages() %}
-<p>{{ message }}</p>
-{% endfor %}
 <form action="/register" method="post">
   <p>
     Username: <br/>

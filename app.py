@@ -37,7 +37,7 @@ def new_log():
         user_id = session["user_id"]
 
         logs.add_log(title, author, status, rating, review, user_id)
-
+        flash("New log created successfully")
         return redirect("/")
 
 @app.route("/log/<int:log_id>")
@@ -110,6 +110,7 @@ def register():
 
         try:
             users.create_account(username, password_hash)
+            flash("Account created successfully.")
         except sqlite3.IntegrityError:
             flash("Error: Username taken.")
             return redirect("/register")
@@ -117,6 +118,7 @@ def register():
         user_id = users.login(username, password1)
         session["username"] = username
         session["user_id"] = user_id
+        flash("Logged in.")
         return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -132,9 +134,11 @@ def login():
         if user_id:
             session["username"] = username
             session["user_id"] = user_id
+            flash("Logged in.")
             return redirect("/")
-        else:
-            return "Wrong username or password."
+
+        flash("Wrong username or password.")
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():
