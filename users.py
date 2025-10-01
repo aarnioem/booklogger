@@ -1,8 +1,8 @@
-from flask import abort
+from flask import abort, session
 from werkzeug.security import check_password_hash
 
 import db
-from logs import get_log_by_id
+from logs import get_log_user_id
 
 def create_account(username, password_hash):
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
@@ -34,6 +34,10 @@ def get_user(user_id):
     return result[0]
 
 def check_permission(user_id, log_id):
-    log = get_log_by_id(log_id)
-    if log["user_id"] != user_id:
+    log_user_id = get_log_user_id(log_id)
+    if log_user_id["user_id"] != user_id:
         abort(403)
+
+def check_login():
+    if "user_id" not in session:
+        abort(401)

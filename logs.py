@@ -16,6 +16,11 @@ def get_log_by_id(log_id):
     log = db.query(sql, [log_id])
     return log[0]
 
+def get_log_user_id(log_id):
+    sql = "SELECT user_id FROM books WHERE id = ?"
+    log = db.query(sql, [log_id])
+    return log[0]
+
 def update_log(status, rating, review, log_id):
     sql = "UPDATE books SET status = ?, rating = ?, review = ? WHERE id = ?"
     db.execute(sql, [status, rating, review, log_id])

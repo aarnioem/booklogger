@@ -23,6 +23,8 @@ def search():
 
 @app.route("/new_log", methods=["GET", "POST"])
 def new_log():
+    users.check_login()
+
     if request.method == "GET":
         return render_template("new_log.html")
 
@@ -45,8 +47,9 @@ def view_log(log_id):
 
 @app.route("/edit/<int:log_id>")
 def edit_log(log_id):
-    log = logs.get_log_by_id(log_id)
+    users.check_login()
     users.check_permission(session["user_id"], log_id)
+    log = logs.get_log_by_id(log_id)
     return render_template("edit_log.html", book=log)
 
 @app.route("/update_log", methods=["POST"])
@@ -75,6 +78,7 @@ def delete_log():
 
 @app.route("/my_books")
 def my_books():
+    users.check_login()
     books = logs.get_logs_by_user_id(session["user_id"])
     return render_template("my_books.html", books=books)
 
