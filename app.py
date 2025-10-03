@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 import config
 import logs
 import users
+import forms
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -36,6 +37,11 @@ def new_log():
         review = request.form["review"]
         user_id = session["user_id"]
 
+        try:
+            forms.validate_new_log(title, author, status, rating, review)
+        except ValueError:
+            return redirect("/new_log")
+
         logs.add_log(title, author, status, rating, review, user_id)
         flash("New log created successfully")
         return redirect("/")
@@ -60,6 +66,12 @@ def update_log():
     log_id = request.form["log_id"]
 
     users.check_permission(session["user_id"], log_id)
+
+    try:
+        forms.validate_log_update(status, rating, review)
+    except ValueError:
+        return redirect("/new_log")
+
     logs.update_log(status, rating, review, log_id)
     return redirect("/my_books")
 
@@ -103,9 +115,11 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
 
-        if password1 != password2:
-            flash("Error: Passwords do not match.")
+        try:
+            forms.validate_signup(username, password1, password2)
+        except ValueError:
             return redirect("/register")
+
         password_hash = generate_password_hash(password1)
 
         try:
@@ -142,6 +156,8 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["username"]
-    del session["user_id"]
+    if "username" in session:
+        del session["username"]
+        del session["user_id"]
+        flash("Logged out.")
     return redirect("/")

@@ -12,23 +12,38 @@ New Log - Booklogger
 <form action="/new_log" method="post">
   <p>
     Book title: <br/>
-    <input type="text" name="title" required />
+    <input type="text" name="title" minlength="1" maxlength="500" required />
   </p>
   <p>
     Author: <br/>
-    <input type="text" name="author" required />
+    <input type="text" name="author" minlength="1" maxlength="300" required />
   </p>
   <p>
     Status:
-    <select name="status">
+    <select name="status" required>
       <option value="want-to-read">Want to read</option>
       <option value="reading">Reading</option>
       <option value="read">Read</option>
     </select>
   </p>
-  <p>Rating (1-10): <input type="number" name="rating" min="1" max="10" /></p>
   <p>
-    Review: <br/>
+    Rating (1-10):
+    <select name="rating">
+      <option value="">No rating</option>
+      <option value="10">10</option>
+      <option value="9">9</option>
+      <option value="8">8</option>
+      <option value="7">7</option>
+      <option value="6">6</option>
+      <option value="5">5</option>
+      <option value="4">4</option>
+      <option value="3">3</option>
+      <option value="2">2</option>
+      <option value="1">1</option>
+    </select>
+  </p>
+  <p>
+    Review (Max 10000 characters): <br/>
     <textarea name="review" rows="10" cols="80"></textarea>
   </p>
   <input type="submit" value="Submit log entry" />
