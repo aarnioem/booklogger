@@ -20,8 +20,7 @@ def login(username, password):
 
     if check_password_hash(password_hash, password):
         return user_id
-    else:
-        return None
+    return None
 
 def get_users():
     sql = "SELECT username, id FROM users"

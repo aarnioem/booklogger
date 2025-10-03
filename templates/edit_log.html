@@ -18,7 +18,7 @@ Edit Log - Booklogger
       <option value="read" {% if book.status == "read" %}selected{% endif %}>Read</option>
     </select>
   </p>
-  <p>Rating: <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/></p>
+  <p>Rating (1-10): <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/></p>
   <p>
     Review: <br/>
     <textarea name="review" rows="10" cols="80">{{ book.review }}</textarea>
