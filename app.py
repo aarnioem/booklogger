@@ -31,6 +31,7 @@ def new_log():
         return render_template("new_log.html")
 
     if request.method == "POST":
+        users.check_csrf(request.form["csrf_token"])
         title = request.form["title"]
         author = request.form["author"]
         status = request.form["status"]
@@ -61,6 +62,7 @@ def edit_log(log_id):
 
 @app.route("/update_log", methods=["POST"])
 def update_log():
+    users.check_csrf(request.form["csrf_token"])
     status = request.form["status"]
     rating = request.form["rating"]
     review = request.form["review"]
@@ -84,6 +86,7 @@ def delete(log_id):
 
 @app.route("/delete_log", methods=["POST"])
 def delete_log():
+    users.check_csrf(request.form["csrf_token"])
     log_id = request.form["log_id"]
     users.check_permission(session["user_id"], log_id)
     logs.delete_log(log_id)
@@ -130,9 +133,7 @@ def register():
             flash("Error: Username taken.")
             return redirect("/register")
 
-        user_id = users.login(username, password1)
-        session["username"] = username
-        session["user_id"] = user_id
+        users.login(username, password1)
         flash("Logged in.")
         return redirect("/")
 
@@ -144,11 +145,8 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        user_id = users.login(username, password)
 
-        if user_id:
-            session["username"] = username
-            session["user_id"] = user_id
+        if users.login(username, password):
             flash("Logged in.")
             return redirect("/")
 
@@ -160,5 +158,6 @@ def logout():
     if "username" in session:
         del session["username"]
         del session["user_id"]
+        del session["csrf_token"]
         flash("Logged out.")
     return redirect("/")

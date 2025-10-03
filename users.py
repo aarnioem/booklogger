@@ -1,5 +1,6 @@
 from flask import abort, session
 from werkzeug.security import check_password_hash
+from secrets import token_hex
 
 import db
 from logs import get_log_user_id
@@ -19,7 +20,10 @@ def login(username, password):
     user_id = query[0]["id"]
 
     if check_password_hash(password_hash, password):
-        return user_id
+        session["username"] = username
+        session["user_id"] = user_id
+        session["csrf_token"] = token_hex(16)
+        return True
     return None
 
 def get_users():
@@ -40,3 +44,7 @@ def check_permission(user_id, log_id):
 def check_login():
     if "user_id" not in session:
         abort(401)
+
+def check_csrf(csrf):
+    if csrf != session["csrf_token"]:
+        abort(403)

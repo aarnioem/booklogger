@@ -24,6 +24,7 @@ Edit Log - Booklogger
     <textarea name="review" rows="10" cols="80">{{ book.review }}</textarea>
   </p>
   <input type="hidden" name="log_id" value="{{ book.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Submit log entry" />
 </form>
 <br/>

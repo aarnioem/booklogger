@@ -46,6 +46,7 @@ New Log - Booklogger
     Review (Max 10000 characters): <br/>
     <textarea name="review" rows="10" cols="80"></textarea>
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Submit log entry" />
 </form>
 {% else %}
