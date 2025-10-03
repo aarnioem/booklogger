@@ -5,11 +5,34 @@ Front Page - Booklogger
 {% endblock %}
 
 {% block content %}
-<h2>Welcome to Booklogger</h2>
-
 {% if session.username %}
 <p>Logged in as {{ session.username }}</p>
-{% else %}
-<p>Log in or sign up to start logging books.</p>
+{% endif %}
+
+<h2>Newest Logs</h2>
+
+{% if newest_logs %}
+<div>
+  {% for log in newest_logs %}
+  <div style="border: 1px solid #a79a9a8a; padding: 12px;">
+    <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
+    <p>
+      Logged by <a href="/profile/{{ log.user_id }}">{{ log.username }}</a>
+      {% if log.rating %}
+      <br/> Rated: {{ log.rating }}/10
+      {% endif %}
+      {% if log.review %}
+      <p style="max-width: 600px; word-wrap: break-word; line-height: normal">
+        <strong>Review:</strong> {{ log.review[:200] }}
+        {% if log.review|length > 200 %}
+        ...<br/>
+        <a href="/log/{{ log.id }}">Read more</a>
+        {% endif %}
+      </p>
+      {% endif %}
+    </p>
+  </div>
+  {% endfor %}
+</div>
 {% endif %}
 {% endblock %}

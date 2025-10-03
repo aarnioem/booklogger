@@ -14,7 +14,8 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    newest_logs = logs.get_all_logs()
+    return render_template("index.html", newest_logs=newest_logs)
 
 @app.route("/search")
 def search():

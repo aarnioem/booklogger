@@ -6,6 +6,19 @@ def add_log(title, author, status, rating, review, user_id):
               VALUES (?, ?, ?, ?, ?, ?)"""
     db.execute(sql, [user_id, title, author, status, rating, review])
 
+def get_all_logs():
+    sql = """SELECT books.id,
+                    books.user_id,
+                    books.title,
+                    books.author,
+                    books.status,
+                    books.rating,
+                    books.review,
+                    users.username
+            FROM books JOIN users ON books.user_id = users.id
+            ORDER BY books.id DESC"""
+    return db.query(sql, [])
+
 def get_logs_by_user_id(user_id):
     sql = "SELECT id, user_id, title, author, status, rating, review FROM books WHERE user_id = ?"
     logs = db.query(sql, [user_id])
