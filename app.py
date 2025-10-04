@@ -132,7 +132,7 @@ def members():
 
 @app.route("/profile/<int:user_id>")
 def profile(user_id):
-    member = users.get_user(user_id)
+    member = users.get_user_stats(user_id)
     user_logs = logs.get_logs_by_user_id(user_id)
     return render_template("profile.html", member=member, logs=user_logs)
 

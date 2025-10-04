@@ -7,7 +7,14 @@
 {% block content %}
 <h2>{{ member.username }}'s Page</h2>
 
-
+<p>{{ member.username }} has been a member since {{ member.created_at }}</p>
+<p>{{ member.username }} has left {{member.total_comments}} comments.</p>
+<p>{{ member.total_logs }} logs made</p>
+<ul>
+  <li>Read: {{ member.read_count }} books </li>
+  <li>Reading: {{ member.reading_count }} books</li>
+  <li>Want-to-read: {{ member.want_to_read_count }} books</li>
+</ul>
 
 {% if logs %}
   <h3>{{ member.username }}'s Logs</h3>

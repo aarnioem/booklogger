@@ -32,9 +32,30 @@ def get_users():
     return result
 
 def get_user(user_id):
-    sql = "SELECT username, id FROM users WHERE id = ?"
+    sql = "SELECT username, id, created_at FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
+    if not result:
+        abort(404)
     return result[0]
+
+def get_user_stats(user_id):
+    sql = """SELECT users.id AS user_id,
+                    users.username,
+                    users.created_at,
+                    COUNT(DISTINCT CASE WHEN books.status = 'want-to-read' THEN 1 END) AS want_to_read_count,
+                    COUNT(DISTINCT CASE WHEN books.status = 'reading' THEN 1 END) AS reading_count,
+                    COUNT(DISTINCT CASE WHEN books.status = 'read' THEN 1 END) AS read_count,
+                    COUNT(DISTINCT books.id) AS total_logs,
+                    COUNT(DISTINCT comments.id) AS total_comments
+            FROM users
+            LEFT JOIN books ON users.id = books.user_id
+            LEFT JOIN comments ON users.id = comments.user_id
+            WHERE users.id = ?"""
+
+    result = db.query(sql, [user_id])
+
+    return result[0]
+
 
 def check_permission(user_id, log_id):
     log_user_id = get_log_user_id(log_id)
