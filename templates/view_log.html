@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ book.title }} - Booklogger
+  {{ book.title }} - Booklogger
 {% endblock %}
 
 {% block content %}
-<h2>{{ book.title }}</h2>
+  {% if session.username %}
+    <p>Logged in as {{ session.username }}</p>
+  {% endif %}
 
-{% if session.username %}
-  <p>Logged in as {{ session.username }}</p>
+  <h2>{{ book.title }}</h2>
+
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
   <p>Status: {{ book.status }}</p>
 
@@ -24,7 +26,22 @@
       {{ book.review }}
     </p>
   {% endif %}
-{% else %}
-  <p>Log in or sign up to start logging books.</p>
-{% endif %}
+  {% if comments %}
+    {% for comment in comments %}
+      <div style="border: 1px solid #a79a9a8a; padding: 4px;">
+        <p><strong><a href="/profile/{{ comment.user_id }}">{{ comment.username }}</a></strong> {{ comment.created_at }}</p>
+        <p>{{ comment.content }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if session.username %}
+    <form action="/add_comment" method="POST">
+    <input type="hidden" name="log_id" value="{{ book.id }}">
+    <textarea name="content" rows="10" cols="80"></textarea>
+
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /><br/>
+    <input type="submit" value="Leave comment">
+    </form>
+  {% endif %}
 {% endblock %}

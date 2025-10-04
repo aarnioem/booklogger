@@ -51,7 +51,8 @@ def new_log():
 @app.route("/log/<int:log_id>")
 def view_log(log_id):
     log = logs.get_log_by_id(log_id)
-    return render_template("view_log.html", book=log)
+    comments = logs.get_comments_by_log_id(log_id)
+    return render_template("view_log.html", book=log, comments=comments)
 
 @app.route("/edit/<int:log_id>")
 def edit_log(log_id):
@@ -91,6 +92,18 @@ def delete_log():
     users.check_permission(session["user_id"], log_id)
     logs.delete_log(log_id)
     return redirect("/my_books")
+
+@app.route("/add_comment", methods=["POST"])
+def add_comment():
+    users.check_login()
+    users.check_csrf(request.form["csrf_token"])
+
+    log_id = request.form["log_id"]
+    content = request.form["content"]
+    user_id = session["user_id"]
+
+    logs.add_comment(log_id, user_id, content)
+    return redirect(f"/log/{log_id}")
 
 @app.route("/my_books")
 def my_books():
@@ -156,8 +169,6 @@ def login():
 @app.route("/logout")
 def logout():
     if "username" in session:
-        del session["username"]
-        del session["user_id"]
-        del session["csrf_token"]
+        session.clear()
         flash("Logged out.")
     return redirect("/")

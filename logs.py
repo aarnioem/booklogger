@@ -54,3 +54,19 @@ def search_by_title(query):
             FROM books JOIN users ON books.user_id = users.id
             WHERE title LIKE ?"""
     return db.query(sql, ["%" + query + "%"])
+
+def add_comment(log_id, user_id, content):
+    sql = "INSERT INTO comments (log_id, user_id, content) VALUES (?, ?, ?)"
+    db.execute(sql, [log_id, user_id, content])
+
+def get_comments_by_log_id(log_id):
+    sql = """SELECT comments.id,
+                    comments.log_id,
+                    comments.content,
+                    comments.created_at,
+                    users.username,
+                    users.id
+            FROM comments JOIN users ON comments.user_id = users.id
+            WHERE comments.log_id = ?
+            ORDER BY comments.created_at ASC"""
+    return db.query(sql, [log_id])
