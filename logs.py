@@ -59,13 +59,25 @@ def add_comment(log_id, user_id, content):
     sql = "INSERT INTO comments (log_id, user_id, content) VALUES (?, ?, ?)"
     db.execute(sql, [log_id, user_id, content])
 
+def delete_comment(comment_id):
+    sql = "DELETE FROM comments WHERE id = ?"
+    db.execute(sql, [comment_id])
+
+def comment_owner_id(comment_id):
+    sql = "SELECT user_id FROM comments WHERE id = ?"
+    result = db.query(sql, [comment_id])[0][0]
+
+    if result:
+        return result
+    return None
+
 def get_comments_by_log_id(log_id):
     sql = """SELECT comments.id,
                     comments.log_id,
                     comments.content,
                     comments.created_at,
                     users.username,
-                    users.id
+                    users.id as user_id
             FROM comments JOIN users ON comments.user_id = users.id
             WHERE comments.log_id = ?
             ORDER BY comments.created_at ASC"""

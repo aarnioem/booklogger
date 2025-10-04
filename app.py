@@ -105,6 +105,20 @@ def add_comment():
     logs.add_comment(log_id, user_id, content)
     return redirect(f"/log/{log_id}")
 
+@app.route("/delete_comment/<int:comment_id>")
+def delete_comment(comment_id):
+    users.check_login()
+    owner_id = logs.comment_owner_id(comment_id)
+
+    if owner_id != session["user_id"]:
+        flash("You can only remove your own comments.")
+    else:
+        logs.delete_comment(comment_id)
+        flash("Comment removed")
+
+    return redirect(request.referrer)
+
+
 @app.route("/my_books")
 def my_books():
     users.check_login()
