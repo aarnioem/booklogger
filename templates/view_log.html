@@ -29,7 +29,7 @@
         <p><strong><a href="/profile/{{ comment.user_id }}">{{ comment.username }}</a></strong> {{ comment.created_at }}</p>
         <p>{{ comment.content }}</p>
 
-        {% if comment.user_id == session.user_id|int %}
+        {% if session.user_id and comment.user_id == session.user_id|int %}
           <a href="/delete_comment/{{ comment.id }}">Remove</a>
         {% endif %}
 
