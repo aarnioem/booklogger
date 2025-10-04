@@ -7,9 +7,6 @@ Log in - Booklogger
 {% block content %}
 <h2>Log In</h2>
 
-{% if session.username %}
-<p>Already logged in as {{ session.username }}</p>
-{% else %}
 <form action="/login" method="post">
   <p>
     Username: <br/>
@@ -21,5 +18,4 @@ Log in - Booklogger
   </p>
   <input type="submit" value="Log in" />
 </form>
-{% endif %}
 {% endblock %}

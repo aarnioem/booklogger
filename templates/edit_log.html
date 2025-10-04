@@ -6,8 +6,6 @@ Edit Log - Booklogger
 
 {% block content %}
 <h2>Edit Log</h2>
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
 <form action="/update_log" method="post">
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
   <p>
@@ -28,8 +26,4 @@ Edit Log - Booklogger
   <input type="submit" value="Submit log entry" />
 </form>
 <br/>
-<a href="/my_books">Back</a>
-{% else %}
-<p>Log in or sign up.</p>
-{% endif %}
 {% endblock %}

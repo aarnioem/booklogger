@@ -7,25 +7,33 @@ My Books - Booklogger
 {% block content %}
 <h2>My Books</h2>
 
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
+{% if logs %}
+  <h3>Your Books:</h3>
+    {% for log in logs %}
 
-{% if books %}
-<h3>Your Books:</h3>
-<ul>
-  {% for book in books %}
-  <li>
-    <strong>{{ book.title }}</strong> by {{ book.author }}
-    <a href="/log/{{ book.id }}">View</a>
-    <a href="/edit/{{ book.id }}">Edit</a>
-    <a href="/delete/{{ book.id }}">Delete</a>
-  </li>
-  {% endfor %}
-</ul>
+      <div style="border: 1px solid #a79a9a8a; padding: 12px;">
+        <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
+        <p>
+          {% if log.rating %}
+            Rated: {{ log.rating }}/10
+          {% endif %}
+          {% if log.review %}
+            <p style="max-width: 600px; word-wrap: break-word; line-height: normal">
+              <strong>Review:</strong> {{ log.review[:200] }}
+              {% if log.review|length > 200 %}
+                ...<br/>
+                <a href="/log/{{ log.id }}">Read more</a>
+              {% endif %}
+            </p>
+          {% endif %}
+
+          <a href="/edit/{{ log.id }}">Edit</a>
+          <a href="/delete/{{ log.id }}">Delete</a>
+
+        </p>
+      </div>
+    {% endfor %}
 {% else %}
-<p>You have no books logged yet. Start by <a href="/new_log">logging a book</a>.</p>
-{% endif %}
-{% else %}
-<p>Log in or sign up to start logging books.</p>
+  <p>You have no books logged yet. Start by <a href="/new_log">logging a book</a>.</p>
 {% endif %}
 {% endblock %}

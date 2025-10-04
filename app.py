@@ -122,8 +122,8 @@ def delete_comment(comment_id):
 @app.route("/my_books")
 def my_books():
     users.check_login()
-    books = logs.get_logs_by_user_id(session["user_id"])
-    return render_template("my_books.html", books=books)
+    my_logs = logs.get_logs_by_user_id(session["user_id"])
+    return render_template("my_books.html", logs=my_logs)
 
 @app.route("/members")
 def members():
@@ -133,12 +133,14 @@ def members():
 @app.route("/profile/<int:user_id>")
 def profile(user_id):
     member = users.get_user(user_id)
-    books = logs.get_logs_by_user_id(user_id)
-    return render_template("profile.html", member=member, books=books)
+    user_logs = logs.get_logs_by_user_id(user_id)
+    return render_template("profile.html", member=member, logs=user_logs)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
+        if "username" in session:
+            return redirect("/")
         return render_template("register.html")
 
     if request.method == "POST":
@@ -167,6 +169,8 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        if "username" in session:
+            return redirect("/")
         return render_template("login.html")
 
     if request.method == "POST":

@@ -5,9 +5,6 @@ Front Page - Booklogger
 {% endblock %}
 
 {% block content %}
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-{% endif %}
 
 <h2>Newest Logs</h2>
 
@@ -31,6 +28,13 @@ Front Page - Booklogger
       </p>
       {% endif %}
     </p>
+    
+    {% if log.user_id == session.user_id %}
+      <a href="/edit/{{ log.id }}">Edit</a>
+      <a href="/delete/{{ log.id }}">Delete</a>
+    {% endif %}
+
+
   </div>
   {% endfor %}
 </div>

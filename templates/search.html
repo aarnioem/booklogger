@@ -7,9 +7,6 @@ Search - Booklogger
 {% block content %}
 <h2>Search</h2>
 
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-{% endif %}
 <form action="/search" method="get">
   <p>
     Search for:

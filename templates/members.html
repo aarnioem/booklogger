@@ -7,12 +7,6 @@ Members - Booklogger
 {% block content %}
 <h2>Members</h2>
 
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-{% else %}
-
-{% endif %}
-
 {% for member in user_list %}
 <a href="/profile/{{ member.id }}">{{ member.username }} <br/></a>
 

@@ -7,8 +7,6 @@ New Log - Booklogger
 {% block content %}
 <h2>New Log</h2>
 
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
 <form action="/new_log" method="post">
   <p>
     Book title: <br/>
@@ -49,9 +47,5 @@ New Log - Booklogger
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Submit log entry" />
 </form>
-{% else %}
-<p>You are not logged in.</p>
-{% endif %}
-<br />
-<a href="/">Back</a>
+
 {% endblock %}

@@ -6,9 +6,6 @@ Register - Booklogger
 
 {% block content %}
 <h2>Registration</h2>
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-{% else %}
 <form action="/register" method="post">
   <p>
     Username (1-30 characters): <br/>
@@ -24,5 +21,4 @@ Register - Booklogger
   </p>
   <input type="submit" value="Create account" />
 </form>
-{% endif %}
 {% endblock %}

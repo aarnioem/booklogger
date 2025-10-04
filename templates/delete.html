@@ -7,17 +7,13 @@ Delete log - Booklogger
 {% block content %}
 <h2>Delete log</h2>
 
-{% if session.username %}
-<p>Logged in as {{ session.username }}</p>
-  <form action="/delete_log" method="post">
-    <p><b>{{ book.title }}</b> by {{ book.author }}</p>
-    <p>Are you certain you want to delete the log entry?</p>
-    <input type="hidden" name="log_id" value="{{ book.id }}">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Delete" />
-  </form>
+<form action="/delete_log" method="post">
+  <p><b>{{ book.title }}</b> by {{ book.author }}</p>
+  <p>Are you certain you want to delete the log entry?</p>
+  <input type="hidden" name="log_id" value="{{ book.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" value="Delete" />
+</form>
 <br/>
-<a href="/my_books">Back</a>
-{% endif %}
 
 {% endblock %}
