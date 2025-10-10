@@ -74,7 +74,7 @@ def update_log():
     try:
         forms.validate_log_update(status, rating, review)
     except ValueError:
-        return redirect("/new_log")
+        return redirect(f"/edit/{log_id}")
 
     logs.update_log(status, rating, review, log_id)
     return redirect("/my_books")
