@@ -11,7 +11,7 @@ Front Page - Booklogger
 {% if newest_logs %}
 <div>
   {% for log in newest_logs %}
-  <div style="border: 1px solid #a79a9a8a; padding: 12px;">
+  <div class="log-entry">
     <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
     <p>
       Logged by <a href="/profile/{{ log.user_id }}">{{ log.username }}</a>
@@ -20,8 +20,9 @@ Front Page - Booklogger
       <br/> Rated: {{ log.rating }}/10
       {% endif %}
       {% if log.review %}
-      <p style="max-width: 600px; word-wrap: break-word; line-height: normal">
-        <strong>Review:</strong> {{ log.review[:200] }}
+      <p class="review">
+        <strong>Review:</strong>
+        <div class="preserve-whitespace">{{ log.review[:200] }}</div>
         {% if log.review|length > 200 %}
         ...<br/>
         <a href="/log/{{ log.id }}">Read more</a>

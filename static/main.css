@@ -1,0 +1,18 @@
+.preserve-whitespace {
+    white-space: pre-wrap;
+}
+
+.comment {
+    border: 1px solid #a79a9a8a;
+    padding: 4px;
+}
+.log-entry {
+    border: 1px solid #a79a9a8a;
+    padding: 12px;
+}
+
+.review {
+    max-width: 600px;
+    word-wrap: break-word;
+    line-height: normal;
+}

@@ -20,12 +20,12 @@
   {% if book.review %}
     <p>
       <b>Review:</b><br/>
-      {{ book.review }}
+      <div class="preserve-whitespace">{{ book.review }}</div>
     </p>
   {% endif %}
   {% if comments %}
     {% for comment in comments %}
-      <div style="border: 1px solid #a79a9a8a; padding: 4px;">
+      <div class="comment">
         <p><strong><a href="/profile/{{ comment.user_id }}">{{ comment.username }}</a></strong> {{ comment.created_at }}</p>
         <p>{{ comment.content }}</p>
 
