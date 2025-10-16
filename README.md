@@ -15,9 +15,10 @@ Make sure that flask is installed.
 pip install flask
 ```
 
-create the database with
+create and initialize the database with
 ```
 sqlite3 database.db < schema.sql
+sqlite3 database.db < init.sql
 ```
 
 run the app with

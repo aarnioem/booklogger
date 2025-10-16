@@ -1,31 +1,54 @@
 import db
 
-def add_log(title, author, status, rating, review, user_id):
+def add_log(title, author, status_id, rating, review, user_id):
     sql = """ INSERT INTO books
-              (user_id, title, author, status, rating, review)
+              (user_id, title, author, status_id, rating, review)
               VALUES (?, ?, ?, ?, ?, ?)"""
-    db.execute(sql, [user_id, title, author, status, rating, review])
+    db.execute(sql, [user_id, title, author, status_id, rating, review])
 
 def get_all_logs():
     sql = """SELECT books.id,
                     books.user_id,
                     books.title,
                     books.author,
-                    books.status,
+                    books.status_id,
+                    reading_status.status,
                     books.rating,
                     books.review,
                     users.username
-            FROM books JOIN users ON books.user_id = users.id
+            FROM books
+            JOIN users ON books.user_id = users.id
+            JOIN reading_status ON books.status_id = reading_status.id
             ORDER BY books.id DESC"""
     return db.query(sql, [])
 
 def get_logs_by_user_id(user_id):
-    sql = "SELECT id, user_id, title, author, status, rating, review FROM books WHERE user_id = ?"
+    sql = """SELECT books.id,
+                    books.user_id,
+                    books.title,
+                    books.author,
+                    books.status_id,
+                    reading_status.status,
+                    books.rating,
+                    books.review
+                    FROM books
+                    JOIN reading_status ON books.status_id = reading_status.id
+                    WHERE books.user_id = ?"""
     logs = db.query(sql, [user_id])
     return logs
 
 def get_log_by_id(log_id):
-    sql = "SELECT id, user_id, title, author, status, rating, review FROM books WHERE id = ?"
+    sql = """SELECT books.id,
+                    books.user_id,
+                    books.title,
+                    books.author,
+                    books.status_id,
+                    reading_status.status,
+                    books.rating,
+                    books.review
+                    FROM books
+                    JOIN reading_status ON books.status_id = reading_status.id
+                    WHERE books.id = ?"""
     log = db.query(sql, [log_id])
     return log[0]
 
@@ -34,9 +57,9 @@ def get_log_user_id(log_id):
     log = db.query(sql, [log_id])
     return log[0]
 
-def update_log(status, rating, review, log_id):
-    sql = "UPDATE books SET status = ?, rating = ?, review = ? WHERE id = ?"
-    db.execute(sql, [status, rating, review, log_id])
+def update_log(status_id, rating, review, log_id):
+    sql = "UPDATE books SET status_id = ?, rating = ?, review = ? WHERE id = ?"
+    db.execute(sql, [status_id, rating, review, log_id])
 
 def delete_log(log_id):
     sql = "DELETE FROM books WHERE id = ?"
@@ -47,11 +70,14 @@ def search_by_title(query):
                     books.user_id,
                     books.title,
                     books.author,
-                    books.status,
+                    books.status_id,
+                    reading_status.status,
                     books.rating,
                     books.review,
                     users.username
-            FROM books JOIN users ON books.user_id = users.id
+            FROM books
+            JOIN users ON books.user_id = users.id
+            JOIN reading_status ON books.status_id = reading_status.id
             WHERE title LIKE ?"""
     return db.query(sql, ["%" + query + "%"])
 
@@ -82,3 +108,10 @@ def get_comments_by_log_id(log_id):
             WHERE comments.log_id = ?
             ORDER BY comments.created_at ASC"""
     return db.query(sql, [log_id])
+
+def get_status_id(status):
+    sql = "SELECT id FROM reading_status WHERE status = ?"
+    result = db.query(sql, [status])
+    if result:
+        return result[0][0]
+    return None

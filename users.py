@@ -42,13 +42,16 @@ def get_user_stats(user_id):
     sql = """SELECT users.id AS user_id,
                     users.username,
                     users.created_at,
-                    COUNT(DISTINCT CASE WHEN books.status = 'want-to-read' THEN 1 END) AS want_to_read_count,
-                    COUNT(DISTINCT CASE WHEN books.status = 'reading' THEN 1 END) AS reading_count,
-                    COUNT(DISTINCT CASE WHEN books.status = 'read' THEN 1 END) AS read_count,
+                    COUNT(DISTINCT CASE WHEN reading_status.status = 'want-to-read' THEN 1 END) AS want_to_read_count,
+                    COUNT(DISTINCT CASE WHEN reading_status.status = 'reading' THEN 1 END) AS reading_count,
+                    COUNT(DISTINCT CASE WHEN reading_status.status = 'read' THEN 1 END) AS read_count,
+                    COUNT(DISTINCT CASE WHEN reading_status.status = 'dropped' THEN 1 END) AS dropped_count,
+                    COUNT(DISTINCT CASE WHEN reading_status.status = 'on-hold' THEN 1 END) AS on_hold_count,
                     COUNT(DISTINCT books.id) AS total_logs,
                     COUNT(DISTINCT comments.id) AS total_comments
             FROM users
             LEFT JOIN books ON users.id = books.user_id
+            LEFT JOIN reading_status ON books.status_id = reading_status.id
             LEFT JOIN comments ON users.id = comments.user_id
             WHERE users.id = ?"""
 

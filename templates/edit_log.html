@@ -14,6 +14,8 @@ Edit Log - Booklogger
       <option value="want-to-read" {% if book.status == "want-to-read" %}selected{% endif %}>Want to read</option>
       <option value="reading" {% if book.status == "reading" %}selected{% endif %}>Reading</option>
       <option value="read" {% if book.status == "read" %}selected{% endif %}>Read</option>
+      <option value="dropped" {% if book.status == "dropped" %}selected{% endif %}>Dropped</option>
+      <option value="on-hold" {% if book.status == "on-hold" %}selected{% endif %}>On-hold</option>
     </select>
   </p>
   <p>Rating (1-10): <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/></p>

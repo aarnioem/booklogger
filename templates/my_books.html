@@ -14,6 +14,8 @@ My Books - Booklogger
       <div style="border: 1px solid #a79a9a8a; padding: 12px;">
         <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
         <p>
+          Status: {{ log.status }}
+          <br/> 
           {% if log.rating %}
             Rated: {{ log.rating }}/10
           {% endif %}

@@ -15,6 +15,7 @@ Front Page - Booklogger
     <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
     <p>
       Logged by <a href="/profile/{{ log.user_id }}">{{ log.username }}</a>
+      <br/> Status: {{ log.status }} 
       {% if log.rating %}
       <br/> Rated: {{ log.rating }}/10
       {% endif %}

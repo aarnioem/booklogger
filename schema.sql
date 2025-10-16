@@ -10,9 +10,14 @@ CREATE TABLE books (
     user_id INTEGER REFERENCES users,
     title TEXT,
     author TEXT,
-    status TEXT,
+    status_id INTEGER REFERENCES reading_status(id),
     rating INTEGER,
     review TEXT
+);
+
+CREATE TABLE reading_status (
+    id INTEGER PRIMARY KEY,
+    status TEXT
 );
 
 CREATE TABLE comments (

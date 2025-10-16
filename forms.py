@@ -34,7 +34,7 @@ def validate_new_log(title, author, status, rating, review):
         errors.append("Author is missing or too long")
         fail = True
 
-    if status not in ["want-to-read", "reading", "read"]:
+    if status not in ["want-to-read", "reading", "read", "dropped", "on-hold"]:
         errors.append("Invalid status")
         fail = True
 
@@ -57,7 +57,7 @@ def validate_log_update(status, rating, review):
     fail = False
     errors = []
 
-    if status not in ["want-to-read", "reading", "read"]:
+    if status not in ["want-to-read", "reading", "read", "dropped", "on-hold"]:
         errors.append("Invalid status")
         fail = True
 

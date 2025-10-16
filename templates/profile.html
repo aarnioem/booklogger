@@ -14,6 +14,8 @@
   <li>Read: {{ member.read_count }} books </li>
   <li>Reading: {{ member.reading_count }} books</li>
   <li>Want-to-read: {{ member.want_to_read_count }} books</li>
+  <li>Dropped: {{ member.dropped_count }} books</li>
+  <li>On-hold: {{ member.on_hold_count }} books</li>
 </ul>
 
 {% if logs %}
@@ -23,6 +25,8 @@
       <div style="border: 1px solid #a79a9a8a; padding: 12px;">
         <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
         <p>
+          Status: {{ log.status }} 
+          <br/> 
           {% if log.rating %}
             Rated: {{ log.rating }}/10
           {% endif %}

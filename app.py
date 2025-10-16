@@ -38,13 +38,14 @@ def new_log():
         rating = request.form["rating"]
         review = request.form["review"]
         user_id = session["user_id"]
+        status_id = logs.get_status_id(status)
 
         try:
             forms.validate_new_log(title, author, status, rating, review)
         except ValueError:
             return redirect("/new_log")
 
-        logs.add_log(title, author, status, rating, review, user_id)
+        logs.add_log(title, author, status_id, rating, review, user_id)
         flash("New log created successfully")
         return redirect("/")
 
@@ -68,6 +69,7 @@ def update_log():
     rating = request.form["rating"]
     review = request.form["review"]
     log_id = request.form["log_id"]
+    status_id = logs.get_status_id(status)
 
     users.check_permission(session["user_id"], log_id)
 
@@ -76,7 +78,7 @@ def update_log():
     except ValueError:
         return redirect(f"/edit/{log_id}")
 
-    logs.update_log(status, rating, review, log_id)
+    logs.update_log(status_id, rating, review, log_id)
     return redirect("/my_books")
 
 @app.route("/delete/<int:log_id>")
