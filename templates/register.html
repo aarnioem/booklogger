@@ -8,15 +8,15 @@ Register - Booklogger
 <h2>Registration</h2>
 <form action="/register" method="post">
   <p>
-    Username (1-30 characters): <br/>
+    <label for="username">Username (1-30 characters): </label><br/>
     <input type="text" name="username" minlength="1" maxlength="30" required />
   </p>
   <p>
-    Password (min 10 characters): <br/>
+    <label for="password1">Password (min 10 characters): </label><br/>
     <input type="password" name="password1" minlength="10" required />
   </p>
   <p>
-    Re-enter password: <br/>
+    <label for="password2">Re-enter password: </label><br/>
     <input type="password" name="password2" minlength="10" required />
   </p>
   <input type="submit" value="Create account" />

@@ -9,19 +9,19 @@ New Log - Booklogger
 
 <form action="/new_log" method="post" enctype="multipart/form-data">
   <p>
-    Cover image (optional): <br/>
+    <label for="cover">Cover image (optional): </label><br/>
     <input type="file" name="cover" accept="image/*">
   </p>
   <p>
-    Book title: <br/>
+    <label for="title">Book title: </label><br/>
     <input type="text" name="title" minlength="1" maxlength="500" required />
   </p>
   <p>
-    Author: <br/>
+    <label for="author">Author: </label><br/>
     <input type="text" name="author" minlength="1" maxlength="300" required />
   </p>
   <p>
-    Status:
+    <label for="status">Status:</label>
     <select name="status" required>
       <option value="want-to-read">Want to read</option>
       <option value="reading">Reading</option>
@@ -31,7 +31,7 @@ New Log - Booklogger
     </select>
   </p>
   <p>
-    Rating (1-10):
+    <label for="rating">Rating (1-10):</label>
     <select name="rating">
       <option value="">No rating</option>
       <option value="10">10</option>
@@ -47,7 +47,7 @@ New Log - Booklogger
     </select>
   </p>
   <p>
-    Review (Max 10000 characters): <br/>
+    <label for="review">Review (Max 10000 characters): </label><br/>
     <textarea name="review" rows="10" cols="80"></textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

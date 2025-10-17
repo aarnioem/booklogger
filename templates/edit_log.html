@@ -8,14 +8,14 @@ Edit Log - Booklogger
 <h2>Edit Log</h2>
 <form action="/update_log" method="post" enctype="multipart/form-data">
   <p>
-    Cover image (optional): <br/>
+    <label for="cover">Cover image (optional):</label><br/>
     <img src="/cover/{{ book.id }}" alt="Book cover image" class="cover">
     <input type="file" name="cover" accept="image/*"><br/>
     <a href="/delete_cover/{{ book.id }}">Delete cover</a>
   </p>
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
   <p>
-    Status:
+    <label for="status">Status:</label>
     <select name="status">
       <option value="want-to-read" {% if book.status == "want-to-read" %}selected{% endif %}>Want to read</option>
       <option value="reading" {% if book.status == "reading" %}selected{% endif %}>Reading</option>
@@ -24,9 +24,12 @@ Edit Log - Booklogger
       <option value="on-hold" {% if book.status == "on-hold" %}selected{% endif %}>On-hold</option>
     </select>
   </p>
-  <p>Rating (1-10): <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/></p>
   <p>
-    Review: <br/>
+    <label for="rating">Rating (1-10):</label>
+    <input type="number" name="rating" min="1" max="10" value="{{ book.rating }}"/>
+  </p>
+  <p>
+    <label for="review">Review:</label><br/>
     <textarea name="review" rows="10" cols="80">{{ book.review }}</textarea>
   </p>
   <input type="hidden" name="log_id" value="{{ book.id }}">

@@ -9,7 +9,7 @@ Delete log - Booklogger
 
 <form action="/delete_log" method="post">
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
-  <p>Are you certain you want to delete the log entry?</p>
+  <label for="delete">Are you certain you want to delete the log entry?</label>
   <input type="hidden" name="log_id" value="{{ book.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Delete" />

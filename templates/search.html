@@ -9,24 +9,24 @@ Search - Booklogger
 
 <form action="/search" method="get">
   <p>
-    Search for:
+    <label for="search">Search for:</label>
     {% if query %}
-    <input type="text" name="query" value="{{ query }}" />
-    <input type="submit" value="Search" />
-    <hr />
-    <h2>Results:</h2>
+      <input type="text" name="query" value="{{ query }}" />
+      <input type="submit" value="Search" />
+      <hr />
+      <h2>Results:</h2>
   
-    <ul>
-    {% for result in results %}
-      <li>
-        <strong>{{ result.title }}</strong> by {{ result.author }} logged by <b>{{ result.username }}</b>
-        <a href="/log/{{ result.id }}">View</a>
-      </li>  
-    {% endfor %}
-    </ul>
+      <ul>
+      {% for result in results %}
+        <li>
+          <strong>{{ result.title }}</strong> by {{ result.author }} logged by <b>{{ result.username }}</b>
+          <a href="/log/{{ result.id }}">View</a>
+        </li>  
+      {% endfor %}
+      </ul>
     {% else %}
-    <input type="text" name="query" />
-    <input type="submit" value="Search" />
+      <input type="text" name="query" />
+      <input type="submit" value="Search" />
     {% endif %}
   </p>
 
