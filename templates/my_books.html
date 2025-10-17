@@ -12,6 +12,7 @@ My Books - Booklogger
     {% for log in logs %}
 
       <div class="log-entry">
+        <img src="/cover/{{ log.id }}" alt="Book cover image" class="small-cover">
         <p><strong><a href="/log/{{ log.id }}">{{ log.title }}</a></strong> by {{ log.author }}</p>
         <p>
           Status: {{ log.status }}

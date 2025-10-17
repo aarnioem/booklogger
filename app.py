@@ -1,7 +1,7 @@
 import sqlite3
 
 from flask import Flask
-from flask import render_template, request, session, redirect, flash
+from flask import render_template, request, session, redirect, flash, make_response, send_from_directory
 from werkzeug.security import generate_password_hash
 
 import config
@@ -23,6 +23,16 @@ def search():
     results = logs.search_by_title(query) if query else []
     return render_template("search.html", query=query, results=results)
 
+@app.route("/cover/<int:book_id>")
+def show_cover(book_id):
+    cover = logs.get_cover(book_id)
+    if not cover:
+        return send_from_directory("static", "no_cover.png")
+
+    response = make_response(bytes(cover))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
+
 @app.route("/new_log", methods=["GET", "POST"])
 def new_log():
     users.check_login()
@@ -37,15 +47,22 @@ def new_log():
         status = request.form["status"]
         rating = request.form["rating"]
         review = request.form["review"]
+        cover = request.files["cover"]
         user_id = session["user_id"]
         status_id = logs.get_status_id(status)
+
+        if cover:
+            try:
+                cover = forms.validate_image(cover)
+            except ValueError:
+                return redirect("/new_log")
 
         try:
             forms.validate_new_log(title, author, status, rating, review)
         except ValueError:
             return redirect("/new_log")
 
-        logs.add_log(title, author, status_id, rating, review, user_id)
+        logs.add_log(title, author, status_id, rating, review, user_id, cover)
         flash("New log created successfully")
         return redirect("/")
 
@@ -68,8 +85,15 @@ def update_log():
     status = request.form["status"]
     rating = request.form["rating"]
     review = request.form["review"]
+    cover = request.files["cover"]
     log_id = request.form["log_id"]
     status_id = logs.get_status_id(status)
+
+    if cover:
+        try:
+            cover = forms.validate_image(cover)
+        except ValueError:
+            return redirect("/new_log")
 
     users.check_permission(session["user_id"], log_id)
 
@@ -78,8 +102,15 @@ def update_log():
     except ValueError:
         return redirect(f"/edit/{log_id}")
 
-    logs.update_log(status_id, rating, review, log_id)
+    logs.update_log(status_id, rating, review, log_id, cover)
+    flash("Log updated.")
     return redirect("/my_books")
+
+@app.route("/delete_cover/<int:log_id>")
+def delete_cover(log_id):
+    users.check_permission(session["user_id"], log_id)
+    logs.delete_cover(log_id)
+    return redirect(f"/edit/{log_id}")
 
 @app.route("/delete/<int:log_id>")
 def delete(log_id):

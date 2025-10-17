@@ -6,7 +6,13 @@ Edit Log - Booklogger
 
 {% block content %}
 <h2>Edit Log</h2>
-<form action="/update_log" method="post">
+<form action="/update_log" method="post" enctype="multipart/form-data">
+  <p>
+    Cover image (optional): <br/>
+    <img src="/cover/{{ book.id }}" alt="Book cover image" class="cover">
+    <input type="file" name="cover" accept="image/*"><br/>
+    <a href="/delete_cover/{{ book.id }}">Delete cover</a>
+  </p>
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
   <p>
     Status:

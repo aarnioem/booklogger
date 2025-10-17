@@ -16,3 +16,11 @@
     word-wrap: break-word;
     line-height: normal;
 }
+
+.cover {
+    max-width: 150px;
+}
+
+.small-cover {
+    max-width: 80px;
+}

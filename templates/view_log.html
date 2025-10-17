@@ -7,7 +7,7 @@
 {% block content %}
 
   <h2>{{ book.title }}</h2>
-
+  <img src="/cover/{{ book.id }}" alt="Book cover image" class="cover">
   <p><b>{{ book.title }}</b> by {{ book.author }}</p>
   <p>Status: {{ book.status }}</p>
 

@@ -75,3 +75,23 @@ def validate_log_update(status, rating, review):
             flash(error)
         raise ValueError
     return
+
+def validate_image(image):
+    fail = False
+    errors = []
+
+    if not image.filename.lower().endswith((".png", ".jpg", ".jpeg")):
+        errors.append("Wrong filetype. Only png or jpg is accepted.")
+        fail = True
+
+    image = image.read()
+
+    if len(image) > 1024 * 1024:
+        errors.append("Cover image is too large")
+        fail =True
+
+    if fail:
+        for error in errors:
+            flash(error)
+        raise ValueError
+    return image

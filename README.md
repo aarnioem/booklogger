@@ -25,3 +25,7 @@ run the app with
 ```
 flask run
 ```
+
+
+
+Cover placeholder image from https://commons.wikimedia.org/wiki/File:Wikisource-books-missing-scan.png
