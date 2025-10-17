@@ -18,15 +18,15 @@ Front Page - Booklogger
       Logged by <a href="/profile/{{ log.user_id }}">{{ log.username }}</a>
       <br/> Status: {{ log.status }} 
       {% if log.rating %}
-      <br/> Rated: {{ log.rating }}/10
+        <br/> Rated: {{ log.rating }}/10
       {% endif %}
       {% if log.review %}
       <p class="review">
         <strong>Review:</strong>
         <div class="preserve-whitespace">{{ log.review[:200] }}</div>
         {% if log.review|length > 200 %}
-        ...<br/>
-        <a href="/log/{{ log.id }}">Read more</a>
+          ...<br/>
+          <a href="/log/{{ log.id }}">Read more</a>
         {% endif %}
       </p>
       {% endif %}

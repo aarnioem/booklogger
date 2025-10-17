@@ -17,11 +17,15 @@
     <p>Rating: -/10</p>
   {% endif %}
 
-  {% if book.review %}
+  {% if book.review|length > 0 %}
     <p>
       <b>Review:</b><br/>
-      <div class="preserve-whitespace">{{ book.review }}</div>
+      <div class="preserve-whitespace review">{{ book.review }}</div>
     </p>
+  {% endif %}
+  {% if book.user_id == session.user_id %}
+    <a href="/edit/{{ book.id }}">Edit</a>
+    <a href="/delete/{{ book.id }}">Delete</a>
   {% endif %}
   {% if comments %}
     {% for comment in comments %}
