@@ -1,4 +1,4 @@
-import sqlite3
+import math, sqlite3
 
 from flask import Flask
 from flask import render_template, request, session, redirect, flash, make_response, send_from_directory
@@ -13,9 +13,20 @@ app = Flask(__name__)
 app.secret_key = config.secret_key
 
 @app.route("/")
-def index():
-    newest_logs = logs.get_all_logs()
-    return render_template("index.html", newest_logs=newest_logs)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    log_count = logs.total_log_count()
+    page_count = math.ceil(log_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect(f"/{page_count}")
+
+    log_page = logs.get_logs_paginated(page, page_size)
+    return render_template("index.html", page=page, page_count=page_count, newest_logs=log_page)
 
 @app.route("/search")
 def search():

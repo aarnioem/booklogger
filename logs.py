@@ -29,6 +29,32 @@ def get_all_logs():
             ORDER BY books.id DESC"""
     return db.query(sql, [])
 
+def get_logs_paginated(page, page_size):
+    limit = page_size
+    offset = page_size * (page - 1)
+    sql = """SELECT books.id,
+                    books.user_id,
+                    books.title,
+                    books.author,
+                    books.status_id,
+                    reading_status.status,
+                    books.rating,
+                    books.review,
+                    covers.cover,
+                    users.username
+            FROM books
+            JOIN users ON books.user_id = users.id
+            JOIN reading_status ON books.status_id = reading_status.id
+            LEFT JOIN covers ON books.id = covers.book_id
+            ORDER BY books.id DESC
+            LIMIT ? OFFSET ?"""
+
+    return db.query(sql, [limit, offset])
+
+def total_log_count():
+    sql = "SELECT COUNT(*) FROM books"
+    return db.query(sql, [])[0][0]
+
 def get_logs_by_user_id(user_id):
     sql = """SELECT books.id,
                     books.user_id,
