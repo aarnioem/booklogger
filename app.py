@@ -124,7 +124,7 @@ def delete_log():
     log_id = request.form["log_id"]
     users.check_permission(session["user_id"], log_id)
     logs.delete_log(log_id)
-    return redirect("/my_books")
+    return redirect("/")
 
 @app.route("/add_comment", methods=["POST"])
 def add_comment():
