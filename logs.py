@@ -104,14 +104,9 @@ def search_by_title(query):
                     books.user_id,
                     books.title,
                     books.author,
-                    books.status_id,
-                    reading_status.status,
-                    books.rating,
-                    books.review,
                     users.username
             FROM books
             JOIN users ON books.user_id = users.id
-            JOIN reading_status ON books.status_id = reading_status.id
             WHERE title LIKE ?"""
     return db.query(sql, ["%" + query + "%"])
 
