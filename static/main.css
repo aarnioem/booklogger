@@ -53,7 +53,7 @@ a {
 }
 
 .review {
-    max-width: 600px;
+    max-width: fit-content;
     line-height: normal;
 }
 
