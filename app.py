@@ -162,12 +162,22 @@ def delete_comment(comment_id):
 
     return redirect(request.referrer)
 
-
 @app.route("/my_books")
-def my_books():
+@app.route("/my_books/<int:page>")
+def my_books(page=1):
     users.check_login()
-    my_logs = logs.get_logs_by_user_id(session["user_id"])
-    return render_template("my_books.html", logs=my_logs)
+    page_size = 10
+    log_count = logs.user_log_count(session["user_id"])
+    page_count = math.ceil(log_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect(f"/{page_count}")
+
+    my_logs = logs.get_user_logs_paginated(session["user_id"], page, page_size)
+    return render_template("my_books.html", page=page, page_count=page_count, logs=my_logs)
 
 @app.route("/members")
 def members():
