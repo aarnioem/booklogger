@@ -1,3 +1,5 @@
+# Pylint Report
+
 ```
 ************* Module app
 app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -81,28 +83,37 @@ Your code has been rated at 8.35/10
 ```
 
 ## Docstring messages
-```app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)```
+```
+app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+```
 Leaving docstrings out is a conscious decision, so these types of messages are common.
 
 ## Inconsistent return statements
-```app.py:50:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)```
-This is because functions don't return anything if the method is something other than GET or POST, but that should never happen so it shouldn't be a problem.
+```
+app.py:50:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+```
+This is because functions don't return anything if the method is something other than `GET` or `POST`, but that should never happen so it shouldn't be a problem.
 
 ## Invalid name
-```config.py:1:0: C0103: Constant name "secret_key" doesn't conform to UPPER_CASE naming style (invalid-name)
+```
+config.py:1:0: C0103: Constant name "secret_key" doesn't conform to UPPER_CASE naming style (invalid-name)
 seed.py:9:0: C0103: Constant name "user_count" doesn't conform to UPPER_CASE naming style (invalid-name)
 seed.py:10:0: C0103: Constant name "log_count" doesn't conform to UPPER_CASE naming style (invalid-name)
-seed.py:11:0: C0103: Constant name "comment_count" doesn't conform to UPPER_CASE naming style (invalid-name)```
+seed.py:11:0: C0103: Constant name "comment_count" doesn't conform to UPPER_CASE naming style (invalid-name)
+```
 `secret_key` is deliberately in lowercase. If there were a lot of constants this could be something to think about, but as it is it's inconsequential.
 `seed.py` has constants in lowercase also deliberately. They don't necessarily have to be constant either besides `user_count`
 
 
 ## Dangerous default value
-```db.py:10:0: W0102: Dangerous default value [] as argument (dangerous-default-value)```
+```
+db.py:10:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+```
 This would be dangerous if any function added something on the list at some point, but as it is nothing does, so it is inconsequential.
 
 ## Too many arguments
-```logs.py:3:0: R0913: Too many arguments (7/5) (too-many-arguments)```
+```
+logs.py:3:0: R0913: Too many arguments (7/5) (too-many-arguments)
+```
 I feel like passing the data to the function this way is still clear. If there was a lot more it would be ideal to pass it as a dictionary, but I don't think it is necessary.
-
