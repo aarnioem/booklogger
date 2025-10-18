@@ -1,7 +1,8 @@
 import math, sqlite3
 
 from flask import Flask
-from flask import render_template, request, session, redirect, flash, make_response, send_from_directory
+from flask import render_template, request, session, redirect, flash, make_response
+from flask import send_from_directory
 from werkzeug.security import generate_password_hash
 
 import config
