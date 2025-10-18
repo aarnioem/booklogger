@@ -10,25 +10,6 @@ def add_log(title, author, status_id, rating, review, user_id, cover=None):
         sql = """INSERT INTO covers (book_id, cover) VALUES (?, ?)"""
         db.execute(sql, [db.last_insert_id(), cover])
 
-
-def get_all_logs():
-    sql = """SELECT books.id,
-                    books.user_id,
-                    books.title,
-                    books.author,
-                    books.status_id,
-                    reading_status.status,
-                    books.rating,
-                    books.review,
-                    covers.cover,
-                    users.username
-            FROM books
-            JOIN users ON books.user_id = users.id
-            JOIN reading_status ON books.status_id = reading_status.id
-            LEFT JOIN covers ON books.id = covers.book_id
-            ORDER BY books.id DESC"""
-    return db.query(sql, [])
-
 def get_logs_paginated(page, page_size):
     limit = page_size
     offset = page_size * (page - 1)
@@ -57,23 +38,6 @@ def total_log_count():
 def user_log_count(user_id):
     sql = "SELECT COUNT(*) FROM books WHERE user_id = ?"
     return db.query(sql, [user_id])[0][0]
-
-def get_logs_by_user_id(user_id):
-    sql = """SELECT books.id,
-                    books.user_id,
-                    books.title,
-                    books.author,
-                    books.status_id,
-                    reading_status.status,
-                    books.rating,
-                    books.review,
-                    covers.cover
-                    FROM books
-                    JOIN reading_status ON books.status_id = reading_status.id
-                    LEFT JOIN covers ON books.id = covers.book_id
-                    WHERE books.user_id = ?"""
-    logs = db.query(sql, [user_id])
-    return logs
 
 def get_user_logs_paginated(user_id, page, page_size):
     limit = page_size
