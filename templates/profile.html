@@ -48,6 +48,11 @@
         </p>
       </div>
     {% endfor %}
+    <p class="page-nav">
+      <a href="/profile/{{ member.user_id }}/{{ page - 1 }}">&lt;&lt;</a>
+      &nbsp;&nbsp;Page {{ page }}/{{ page_count }}&nbsp;&nbsp;
+      <a href="/profile/{{ member.user_id }}/{{ page + 1 }}">&gt;&gt;</a>
+    </p>
 {% else %}
   <p>You have no books logged yet. Start by <a href="/new_log">logging a book</a>.</p>
 {% endif %}

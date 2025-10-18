@@ -172,9 +172,9 @@ def my_books(page=1):
     page_count = max(page_count, 1)
 
     if page < 1:
-        return redirect("/1")
+        return redirect("/my_books/1")
     if page > page_count:
-        return redirect(f"/{page_count}")
+        return redirect(f"/my_books/{page_count}")
 
     my_logs = logs.get_user_logs_paginated(session["user_id"], page, page_size)
     return render_template("my_books.html", page=page, page_count=page_count, logs=my_logs)
@@ -185,10 +185,27 @@ def members():
     return render_template("members.html", user_list=user_list)
 
 @app.route("/profile/<int:user_id>")
-def profile(user_id):
+@app.route("/profile/<int:user_id>/<int:page>")
+def profile(user_id, page=1):
+    page_size = 10
+    log_count = logs.user_log_count(session["user_id"])
+    page_count = math.ceil(log_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect(f"/profile/{user_id}/1")
+    if page > page_count:
+        return redirect(f"/profile/{user_id}/{page_count}")
+
     member = users.get_user_stats(user_id)
-    user_logs = logs.get_logs_by_user_id(user_id)
-    return render_template("profile.html", member=member, logs=user_logs)
+    user_logs = logs.get_user_logs_paginated(user_id, page, page_size)
+
+    return render_template("profile.html",
+                            page=page,
+                            page_count=page_count,
+                            member=member,
+                            logs=user_logs)
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
