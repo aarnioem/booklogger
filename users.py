@@ -1,6 +1,6 @@
+from secrets import token_hex
 from flask import abort, session
 from werkzeug.security import check_password_hash
-from secrets import token_hex
 
 import db
 from logs import get_log_user_id

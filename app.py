@@ -1,4 +1,5 @@
-import math, sqlite3
+import math
+import sqlite3
 
 from flask import Flask
 from flask import render_template, request, session, redirect, flash, make_response

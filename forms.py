@@ -20,7 +20,6 @@ def validate_signup(username, password1, password2):
         for error in errors:
             flash(error)
         raise ValueError
-    return
 
 def validate_new_log(title, author, status, rating, review):
     fail = False
@@ -51,7 +50,6 @@ def validate_new_log(title, author, status, rating, review):
         for error in errors:
             flash(error)
         raise ValueError
-    return
 
 def validate_log_update(status, rating, review):
     fail = False
@@ -74,7 +72,6 @@ def validate_log_update(status, rating, review):
         for error in errors:
             flash(error)
         raise ValueError
-    return
 
 def validate_image(image):
     fail = False
