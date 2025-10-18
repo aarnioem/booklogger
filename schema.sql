@@ -33,3 +33,5 @@ CREATE TABLE covers (
     book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
     cover BLOB
 );
+
+CREATE INDEX idx_comments_user_id ON comments(user_id);
