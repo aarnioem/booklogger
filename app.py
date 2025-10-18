@@ -188,7 +188,7 @@ def members():
 @app.route("/profile/<int:user_id>/<int:page>")
 def profile(user_id, page=1):
     page_size = 10
-    log_count = logs.user_log_count(session["user_id"])
+    log_count = logs.user_log_count(user_id)
     page_count = math.ceil(log_count / page_size)
     page_count = max(page_count, 1)
 
